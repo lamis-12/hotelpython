@@ -78,3 +78,34 @@ def test_calculate_price_negative_nights():
 def test_calculate_price_invalid_room():
     with pytest.raises(ValueError):
         hotel.calculate_price(999, 2)
+
+# 5. Tests supplémentaires : plusieurs chambres
+
+def test_book_room_different_rooms():
+    assert hotel.book_room(102) == True
+    assert hotel.book_room(103) == True
+
+    assert hotel.rooms[102]["available"] == False
+    assert hotel.rooms[103]["available"] == False
+    assert hotel.rooms[101]["available"] == True
+
+
+def test_cancel_booking_does_not_affect_other_rooms():
+    hotel.rooms[101]["available"] = False
+
+    hotel.cancel_booking(101)
+
+    assert hotel.rooms[101]["available"] == True
+    assert hotel.rooms[102]["available"] == True
+    assert hotel.rooms[103]["available"] == True
+
+
+# 6. Tests supplémentaires : calcul des prix
+
+@pytest.mark.parametrize("room_id, nights, expected", [
+    (102, 3, 450),
+    (103, 2, 400),
+    (101, 5, 600)
+])
+def test_calculate_price_multiple_rooms(room_id, nights, expected):
+    assert hotel.calculate_price(room_id, nights) == expected
