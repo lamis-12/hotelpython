@@ -1,0 +1,36 @@
+
+{% extends "base.html" %}
+
+{% block title %}Home - Hotel Booking{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <h1>Find Your Perfect Stay</h1>
+
+    <p>Book your room easily and enjoy your stay.</p>
+
+    <form action="/rooms" method="GET" class="search-form">
+
+        <div>
+            <label>Check-in</label>
+            <input type="date" name="check_in" id="check_in" required>
+        </div>
+
+        <div>
+            <label>Check-out</label>
+            <input type="date" name="check_out" id="check_out" required>
+        </div>
+
+        <button type="submit">Search Rooms</button>
+
+    </form>
+</section>
+
+<section class="welcome">
+    <h2>Welcome to Our Hotel</h2>
+    <p>Discover comfortable rooms at affordable prices.</p>
+    <a href="/rooms" class="button">Explore Rooms</a>
+</section>
+
+{% endblock %}
