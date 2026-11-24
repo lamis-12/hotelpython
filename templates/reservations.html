@@ -1,0 +1,72 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Reservations{% endblock %}
+
+{% block content %}
+
+<h1>Reservations</h1>
+
+{% if reservations %}
+
+<div class="table-wrapper">
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Room</th>
+            <th>Guest</th>
+            <th>Check-in</th>
+            <th>Check-out</th>
+            <th>Total Price</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for item in reservations %}
+
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.room_number }}</td>
+            <td>{{ item.guest_name }}</td>
+            <td>{{ item.check_in }}</td>
+            <td>{{ item.check_out }}</td>
+            <td>{{ item.total_price }} DT</td>
+            <td>{{ item.status }}</td>
+
+            <td>
+                {% if item.status == "active" %}
+                <form method="POST"
+                      action="{{ url_for('cancel',
+                      reservation_id=item.id) }}"
+                      class="cancel-form">
+
+                    <button type="submit" class="cancel-button">
+                        Cancel
+                    </button>
+
+                </form>
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+</table>
+
+</div>
+
+{% else %}
+
+<p>No reservations found.</p>
+
+{% endif %}
+
+{% endblock %}
